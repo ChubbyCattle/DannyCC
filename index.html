@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chubby Cattle Reviews</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      padding: 20px;
+      max-width: 700px;
+      background-color: black;
+      color: white;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 10px 5px;
+      background-color: red;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #cc0000;
+    }
+    .output {
+      margin: 15px 0;
+      padding: 10px;
+      border: 1px solid #444;
+      border-radius: 5px;
+      background-color: #222;
+      color: white;
+    }
+    a {
+      text-decoration: none;
+      padding: 10px 20px;
+      margin: 10px 5px;
+      background-color: red;
+      color: white;
+      border-radius: 5px;
+      display: inline-block;
+    }
+    a:hover {
+      background-color: #cc0000;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Chubby Cattle Reviews</h1>
+  <p>Click the button below to generate a review. Use the link to leave your review on Yelp!</p>
+
+  <button onclick="generateReview()">Generate a Review</button>
+  <button onclick="copyToClipboard()">Copy to Clipboard</button>
+  <div id="reviewOutput" class="output"></div>
+
+  <a href="https://www.yelp.com/writeareview/biz/WdshnXVjeZq-MvVofMzuTA?review_origin=mobile-site-biz-details-review-feed-war-widget" target="_blank">Leave a Yelp Review</a>
+
+  <script>
+    const usedReviews = new Set();
+
+    function getRandomItem(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+
+    const openings = [
+      "From the moment I entered Chubby Cattle, I knew this would be an exceptional experience.",
+      "Walking into Chubby Cattle feels like stepping into a vibrant culinary paradise.",
+      "The sleek and stylish atmosphere at Chubby Cattle immediately sets the tone for an unforgettable night.",
+      "I’ve been hearing amazing things about Chubby Cattle, and my visit did not disappoint.",
+      "The first thing I noticed about Chubby Cattle was its welcoming vibe and modern decor.",
+      "The buzz and energy at Chubby Cattle are impossible to ignore—it’s electric!",
+      "Stepping inside Chubby Cattle, you’re greeted with a mix of sophistication and fun.",
+      "Chubby Cattle is like no other restaurant I’ve been to. It’s lively, welcoming, and unique.",
+      "I knew I was in for a treat as soon as I walked through the doors of Chubby Cattle.",
+      "The vibrant decor and upbeat ambiance at Chubby Cattle immediately drew me in.",
+      "I could tell Chubby Cattle was going to be special just from the incredible aromas wafting through the air.",
+      "The moment you walk into Chubby Cattle, you feel the excitement of a dining experience that’s anything but ordinary.",
+      "The modern, playful aesthetic at Chubby Cattle creates a dining environment unlike any other.",
+      "Chubby Cattle sets itself apart from the second you step through its doors with its unique charm.",
+      "Walking into Chubby Cattle is like walking into a carefully curated blend of energy and elegance.",
+      "The first impression at Chubby Cattle is incredible—the perfect mix of design, lighting, and energy.",
+      "You can feel the creativity and passion at Chubby Cattle the second you arrive.",
+      "The inviting atmosphere at Chubby Cattle makes you feel excited for what’s to come.",
+      "Chubby Cattle stands out with its vibrant yet relaxing ambiance.",
+      "From the moment you enter, Chubby Cattle feels like an escape into culinary magic.",
+      // Add up to 100+ completely filled-out unique entries
+    ];
+
+    const middleSections = [
+      "Danny C was phenomenal—his attention to detail and warm personality made our night.",
+      "The service from Danny C was beyond exceptional, and his recommendations were spot on.",
+      "Danny C went out of his way to ensure we had an unforgettable experience. He truly knows his stuff.",
+      "Our server, Danny C, made our evening unforgettable with his impeccable service and kindness.",
+      "Danny C’s energy and expertise added so much to our dining experience. He made sure everything was perfect.",
+      "The highlight of our visit was Danny C, who provided the kind of service you rarely see these days.",
+      "Danny C took the time to explain the menu and even suggested pairings that elevated our meal.",
+      "We were lucky enough to have Danny C as our server, and he exceeded every expectation we had.",
+      "Danny C was fantastic—attentive without being intrusive, knowledgeable, and incredibly friendly.",
+      "The service from Danny C was above and beyond—he truly made us feel like VIPs.",
+      "Danny C was a rockstar! He made us feel at home while also delivering a flawless dining experience.",
+      "The attention and care Danny C provided were unmatched. He went out of his way to make sure everything was perfect.",
+      "We couldn’t have asked for a better server than Danny C. He made everything seamless and enjoyable.",
+      "Danny C’s suggestions elevated our meal to a whole new level. His knowledge of the menu was impressive.",
+      "Every interaction with Danny C was delightful. He genuinely cares about his guests.",
+      "Danny C is one of the reasons our visit was so memorable. His dedication to great service is clear.",
+      // Add up to 100+ filled-out unique entries
+    ];
+
+    const detailsAboutChubbyCattle = [
+      "Chubby Cattle’s decor is a perfect blend of sleek and modern, with a playful edge that keeps things exciting.",
+      "The interactive nature of the dining experience at Chubby Cattle is one of its standout features.",
+      "I was blown away by the variety of sauces and ingredients available at Chubby Cattle.",
+      "The playful addition of an arcade at Chubby Cattle made the wait for our table so much fun.",
+      "Chubby Cattle is as much about the experience as it is about the food, and they’ve mastered both.",
+      "The attention to detail in everything from the table setup to the plating is extraordinary at Chubby Cattle.",
+      "Chubby Cattle’s unique concept of interactive dining is one of the reasons it stands out so much.",
+      "The restaurant’s vibrant energy and beautifully curated ambiance are perfect for any occasion.",
+      "Every dish at Chubby Cattle felt like a celebration of flavors, paired perfectly with the sauces.",
+      "The hot pot setup is both fun and functional, making the meal a truly interactive experience.",
+      "Chubby Cattle’s atmosphere strikes a perfect balance between lively and comfortable.",
+      // Add up to 100+ completely filled-out unique entries
+    ];
+
+    const closings = [
+      "I’m already planning my next visit to Chubby Cattle—it’s that good.",
+      "Chubby Cattle isn’t just a restaurant; it’s an experience that I’ll be recommending to everyone I know.",
+      "This was easily one of the best dining experiences I’ve ever had. Chubby Cattle is phenomenal.",
+      "Between the exceptional service, incredible food, and vibrant atmosphere, Chubby Cattle has earned a spot in my favorites.",
+      "Chubby Cattle is a must-visit for anyone who loves great food and a fantastic dining experience.",
+      // Add up to 100+ filled-out unique entries
+    ];
+
+    function generateDynamicReview() {
+      const review = `
+        ${getRandomItem(openings)} 
+        ${getRandomItem(middleSections)} 
+        ${getRandomItem(detailsAboutChubbyCattle)} 
+        ${getRandomItem(closings)}
+      `;
+      return review.trim();
+    }
+
+    function generateReview() {
+      let review;
+      do {
+        review = generateDynamicReview();
+      } while (usedReviews.has(review));
+
+      usedReviews.add(review);
+
+      const outputDiv = document.getElementById("reviewOutput");
+      outputDiv.textContent = review;
+    }
+
+    function copyToClipboard() {
+      const reviewText = document.getElementById("reviewOutput").textContent;
+      if (reviewText) {
+        navigator.clipboard.writeText(reviewText).then(() => {
+          alert("Review copied to clipboard!");
+        }).catch(err => {
+          console.error("Failed to copy: ", err);
+        });
+      } else {
+        alert("No review to copy. Generate a review first.");
+      }
+    }
+  </script>
+
+</body>
+</html>
